@@ -4,22 +4,25 @@ class asgl {
         Long j = Long.parseLong(args[1]);  //Exponent
         Long n = Long.parseLong(args[2]);
 
-        System.out.println(a);
+        /*System.out.println(a);
         System.out.println(j);
-        System.out.println(n);
+        System.out.println(n);*/
 
-        System.out.print(a.toString() + " mod " + n.toString() + " = ");
+        /*System.out.print(a.toString() + " mod " + n.toString() + " = ");
+        System.out.println(calculateMod(a, n));*/
 
-        System.out.println(calculateMod(a, n));
-
-        //for (Long i = 0; i < 5; i++) {
-        //    System.out.println(i);
-        // }
+        Long result = 1L;  //L is needed to tell it the number is Long
+        for (int i = 0; i < j.intValue(); i++) {
+            result = result * calculateMod(a, n);
+            /*System.out.println(i);
+            System.out.println(result);*/
+        }
+        System.out.println(calculateMod(result, n));
           
     }
 
     private static Long calculateMod(Long firstNum, Long secondNum){
-        Long result = firstNum%secondNum + (firstNum >= 0 ? 0 : secondNum);
-        return result;
+        Long modResult = firstNum%secondNum + (firstNum >= 0 ? 0 : secondNum);
+        return modResult;
     }
 }
