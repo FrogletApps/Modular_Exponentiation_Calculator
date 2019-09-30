@@ -6,10 +6,7 @@ public class asg1 {
         Long j = Long.parseLong(args[1]);  //Exponent
         Long n = Long.parseLong(args[2]);
 
-        /*System.out.println(a + "" + isPrime(a));
-        System.out.println(j + "" + isPrime(j));
-        System.out.println(n + "" + isPrime(n));
-        System.out.println("---");*/
+        //System.out.println(j/n);
 
         /*System.out.println(a);
         System.out.println(j);
@@ -18,12 +15,22 @@ public class asg1 {
         /*System.out.print(a.toString() + " mod " + n.toString() + " = ");
         System.out.println(calculateMod(a, n));*/
 
+        /*System.out.println(a + "" + isPrime(a));
+        System.out.println(j + "" + isPrime(j));
+        System.out.println(n + "" + isPrime(n));
+        System.out.println("---");*/
+
+        //if (isPrime(n)){
+        //    j = j/n;
+        //    System.out.println(j);
+        //}
+
         Long result = 1L;  //L is needed to tell it the number is Long
         //Loop j times
         for (Long i = 0L; i < j; i++) {
             result = result * calculateMod(a, n);
-            /*System.out.println(i);
-            System.out.println(result);*/
+            //System.out.println(i);
+            //System.out.println(result);
         }
 
         System.out.println(calculateMod(result, n));  //Final result
@@ -64,10 +71,9 @@ public class asg1 {
             else{
                 primeCheckLimit = isPrime;
             }
-            System.out.println(isPrime);
             for (Long i = 2L; i < primeCheckLimit; i++) {
                 //if isPrime MOD i = 0 then it is not prime
-                System.out.println(i);
+                //System.out.println(i);
                 if (calculateMod(isPrime, i) == 0){
                     result = false;
                     break;
