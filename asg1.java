@@ -1,4 +1,4 @@
-class asgl {
+class asg1 {
     public static void main (String[] args) {
         Long a = Long.parseLong(args[0]);  //Base
         Long j = Long.parseLong(args[1]);  //Exponent
