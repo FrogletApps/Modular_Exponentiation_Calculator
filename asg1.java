@@ -27,57 +27,71 @@ public class asg1 {
         System.out.println(n + "" + isEven(n));
         System.out.println("---");*/
 
+        //Test power
+        /*System.out.println(a + "^" + j + " = "+ power(a, j));
+        System.out.println("---");*/
+
+
         //System.out.println(simpleSolve(a, j, n));
+
         System.out.println(advSolve(a, j, n));
     }
 
+    //This calculates with no optimisation
     private static Long simpleSolve(Long a, Long j, Long n){
-        Long temp = 1L;  //L is needed to tell it the number is Long
-        //Loop j times
-        for (Long i = 1L; i <= j; i++) {
-            temp = temp * calculateMod(a, n);
-            //System.out.println("i = " + i + "  ---  temp = " + temp);
-        }
-        return calculateMod(temp, n);  //Final result
+        //This turns into - ((a%n)^j)%n
+        return calculateMod(power(calculateMod(a, n), j), n);
     }
 
     private static Long advSolve(Long a, Long j, Long n){
-        int loopNo = 2;
+        Long loopNo = 1L;
         Long jReduced = j;
         Long extraIndices = 0L;
 
-        //NEED TO FIND A WAY OF CALCULATING THE LOOP NUMBER
+        //This calculates the loop number
+        //Beyond 62 you get overflow (because Long stores (2^63)-1)
+        while (power(2L, loopNo) <= j && loopNo < 62L){
+            loopNo++;
+            //System.out.println("loopNo = " + loopNo + " --- loopNo^2 = " + power(2L, loopNo));
+        }
 
-        for (int i = 1; i <= loopNo; i++) {
+        //TODO:  If loopNo is 62 you'll need to run this function recursively maybe?
+
+        
+        //TODO:  Calculate correctly for odd numbers
+
+        for (Long i = 1L; i <= loopNo; i++) {
             //If not even then count it
             if (!isEven(jReduced)){
                 System.out.println("jReduced original = " + jReduced);
-                //extraIndices++;
+                extraIndices++;
                 jReduced--;
                 System.out.println("jReduced now = " + jReduced);
             }
             jReduced = jReduced/2L;
-            //extraIndices = extraIndices * 2; //Double extra indices so we don't need to keep track of where they were taken from when doubling the end
             System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
         }
 
         System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
         Long miniResult = simpleSolve(a, jReduced, n);
         System.out.println("miniResult = " + miniResult);
-        // System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
-        // Long extraResult = simpleSolve(a, extraIndices, n);
-        // System.out.println("extraResult = " + extraResult);
 
         Long temp = 1L;
         Long undoLoop = j/jReduced;
-        for (Long i = 1L; i <= undoLoop ; i++) {
+        for (Long i = 1L; i <= undoLoop; i++) {
             temp = temp * miniResult;
             System.out.println("i = " + i + "  ---  temp = " + temp);
         }
 
-        //Add the extra odd numbers
-        //temp += extraResult;
-        //System.out.println("temp + extraResult = " + temp);
+        //If there were extra indices then add them to the result
+        if (extraIndices != 0){
+            System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
+            Long extraResult = simpleSolve(a, extraIndices, n);
+            System.out.println("extraResult = " + extraResult);
+            //Add the extra odd numbers
+            temp += extraResult;
+            System.out.println("temp + extraResult = " + temp);
+        }
 
         System.out.println("Calc Mod --- " + temp + "%"+n);
         return calculateMod(temp, n);  //Final result
@@ -88,6 +102,16 @@ public class asg1 {
     private static Long calculateMod(Long firstNum, Long secondNum){
         Long modResult = firstNum%secondNum + (firstNum >= 0 ? 0 : secondNum);
         return modResult;
+    }
+
+    //A function to calculate firstNum mod secondNum
+    private static Long power(Long num, Long indices){
+        Long result = 1L;
+        for (Long i = 1L; i <= indices; i++) {
+            result = result * num;
+            //System.out.println("i = " + i + "  ---  result = " + result);
+        }
+        return result;
     }
 
     //A function to calculate if a number is even
