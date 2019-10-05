@@ -42,28 +42,31 @@ public class asg1 {
     }
 
     private static Long advSolve(Long a, Long j, Long n){
-        int loopNo = 5;
+        int loopNo = 2;
         Long jReduced = j;
         Long extraIndices = 0L;
+
+        //NEED TO FIND A WAY OF CALCULATING THE LOOP NUMBER
 
         for (int i = 1; i <= loopNo; i++) {
             //If not even then count it
             if (!isEven(jReduced)){
                 System.out.println("jReduced original = " + jReduced);
-                extraIndices++;
+                //extraIndices++;
                 jReduced--;
                 System.out.println("jReduced now = " + jReduced);
             }
             jReduced = jReduced/2L;
-            extraIndices = extraIndices * 2; //Double extra indices so we don't need to keep track of where they were taken from when doubling the end
+            //extraIndices = extraIndices * 2; //Double extra indices so we don't need to keep track of where they were taken from when doubling the end
             System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
         }
-
-        //Need a way of reducing for odd numbers too
 
         System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
         Long miniResult = simpleSolve(a, jReduced, n);
         System.out.println("miniResult = " + miniResult);
+        // System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
+        // Long extraResult = simpleSolve(a, extraIndices, n);
+        // System.out.println("extraResult = " + extraResult);
 
         Long temp = 1L;
         Long undoLoop = j/jReduced;
@@ -71,6 +74,10 @@ public class asg1 {
             temp = temp * miniResult;
             System.out.println("i = " + i + "  ---  temp = " + temp);
         }
+
+        //Add the extra odd numbers
+        //temp += extraResult;
+        //System.out.println("temp + extraResult = " + temp);
 
         System.out.println("Calc Mod --- " + temp + "%"+n);
         return calculateMod(temp, n);  //Final result
