@@ -27,41 +27,55 @@ public class asg1 {
         System.out.println(n + "" + isEven(n));
         System.out.println("---");*/
 
-        System.out.println(simpleSolve(a, j, n));
-        //System.out.println(advancedSolve(a, j, n));
+        //System.out.println(simpleSolve(a, j, n));
+        System.out.println(advSolve(a, j, n));
     }
 
     private static Long simpleSolve(Long a, Long j, Long n){
         Long temp = 1L;  //L is needed to tell it the number is Long
         //Loop j times
-        for (Long i = 0L; i < j; i++) {
+        for (Long i = 1L; i <= j; i++) {
             temp = temp * calculateMod(a, n);
-            //System.out.println(i);
-            //System.out.println(temp);
+            //System.out.println("i = " + i + "  ---  temp = " + temp);
         }
         return calculateMod(temp, n);  //Final result
     }
 
-    // private static Long advancedSolve(Long a, Long j, Long n){
-    //     //TEST CODE - REMOVE BEFORE FINAL VERSION
-    //     if (isEven(j) != true){
-    //         System.out.println("WARNING - THIS MIGHT BREAK");
-    //     }
+    private static Long advSolve(Long a, Long j, Long n){
+        int loopNo = 5;
+        Long jReduced = j;
+        Long extraIndices = 0L;
 
-    //     for (int i = 0; i < 50; i++) {
-    //         j = j/2;
-    //         System.out.println("i = " + i + " - j = " + j);
-    //     }
+        for (int i = 1; i <= loopNo; i++) {
+            //If not even then count it
+            if (!isEven(jReduced)){
+                System.out.println("jReduced original = " + jReduced);
+                extraIndices++;
+                jReduced--;
+                System.out.println("jReduced now = " + jReduced);
+            }
+            jReduced = jReduced/2L;
+            extraIndices = extraIndices * 2; //Double extra indices so we don't need to keep track of where they were taken from when doubling the end
+            System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
+        }
 
-    //     Long temp = 1L;
-    //     //long splitResult = simpleSolve(a, j, n);
-    //     System.out.println("splitResult = " + splitResult);
-    //     for (int i = 0; i < 50; i++) {
-    //         temp = temp * splitResult;
-    //         System.out.println("i2 = " + i + " - temp = " + temp);
-    //     }
-    //     return calculateMod(temp, n);  //Final result
-    // }
+        //Need a way of reducing for odd numbers too
+
+        System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
+        Long miniResult = simpleSolve(a, jReduced, n);
+        System.out.println("miniResult = " + miniResult);
+
+        Long temp = 1L;
+        Long undoLoop = j/jReduced;
+        for (Long i = 1L; i <= undoLoop ; i++) {
+            temp = temp * miniResult;
+            System.out.println("i = " + i + "  ---  temp = " + temp);
+        }
+
+        System.out.println("Calc Mod --- " + temp + "%"+n);
+        return calculateMod(temp, n);  //Final result
+
+    }
 
     //A function to calculate firstNum mod secondNum
     private static Long calculateMod(Long firstNum, Long secondNum){
