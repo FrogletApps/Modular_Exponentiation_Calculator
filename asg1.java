@@ -79,8 +79,9 @@ public class asg1 {
         Long miniResult = simpleSolve(a, jReduced, n);
         System.out.println("miniResult = " + miniResult);
 
-        Long resultPower = j - jReduced;
+        Long resultPower = j - extraIndices;
         Long result = power(miniResult, resultPower);
+        System.out.println("Calc Mod (result) --- (" + a + "^" + jReduced + "%" + n + ")^" + resultPower);
         /*for (Long i = 1L; i <= resultPower; i++) {
             temp = temp * miniResult;
             System.out.println("i = " + i + "  ---  temp = " + temp);
@@ -91,6 +92,7 @@ public class asg1 {
             System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
             Long extraResult = simpleSolve(a, extraIndices, n);
             System.out.println("extraResult = " + extraResult);
+            System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
             
             //Long extraResultPower = jReduced;
             //Long extraResult = power(extraMiniResult, extraResultPower);
