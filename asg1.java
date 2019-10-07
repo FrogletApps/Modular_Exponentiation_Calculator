@@ -50,10 +50,12 @@ public class asg1 {
 
         //This calculates the loop number
         //Beyond 62 you get overflow (because Long stores (2^63)-1)
-        while (power(2L, loopNo) <= j && loopNo < 62L){
+        while (power(2L, loopNo+1L) <= j && loopNo < 62L){
             loopNo++;
-            //System.out.println("loopNo = " + loopNo + " --- loopNo^2 = " + power(2L, loopNo));
+            System.out.println("loopNo = " + loopNo + " --- 2^loopNo = " + power(2L, loopNo));
         }
+        System.out.println("2^" + loopNo + " is the largest power of 2 less than j so will be loopNo");
+        System.out.println("------------------");
 
         //TODO:  If loopNo is 62 you'll need to run this function recursively maybe?
 
@@ -71,30 +73,35 @@ public class asg1 {
             jReduced = jReduced/2L;
             System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
         }
+        System.out.println("------------------");
 
         System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
         Long miniResult = simpleSolve(a, jReduced, n);
         System.out.println("miniResult = " + miniResult);
 
-        Long temp = 1L;
-        Long undoLoop = j/jReduced;
-        for (Long i = 1L; i <= undoLoop; i++) {
+        Long resultPower = j - jReduced;
+        Long result = power(miniResult, resultPower);
+        /*for (Long i = 1L; i <= resultPower; i++) {
             temp = temp * miniResult;
             System.out.println("i = " + i + "  ---  temp = " + temp);
-        }
+        }*/
 
         //If there were extra indices then add them to the result
         if (extraIndices != 0){
             System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
             Long extraResult = simpleSolve(a, extraIndices, n);
             System.out.println("extraResult = " + extraResult);
-            //Add the extra odd numbers
-            temp += extraResult;
-            System.out.println("temp + extraResult = " + temp);
+            
+            //Long extraResultPower = jReduced;
+            //Long extraResult = power(extraMiniResult, extraResultPower);
+
+            //Add to the result
+            System.out.println("result ("+ result + ") * extraResult (" + extraResult + ") = " + result*extraResult);
+            result = result * extraResult;
         }
 
-        System.out.println("Calc Mod --- " + temp + "%"+n);
-        return calculateMod(temp, n);  //Final result
+        System.out.println("Calc Mod --- " + result + "%"+n);
+        return calculateMod(result, n);  //Final result
 
     }
 
@@ -106,11 +113,13 @@ public class asg1 {
 
     //A function to calculate firstNum mod secondNum
     private static Long power(Long num, Long indices){
+        System.out.println("Power: " + num + "^" + indices);
         Long result = 1L;
         for (Long i = 1L; i <= indices; i++) {
             result = result * num;
-            //System.out.println("i = " + i + "  ---  result = " + result);
+            System.out.println("i = " + i + "  ---  result = " + result);
         }
+        System.out.println("Power result = " + result);
         return result;
     }
 
