@@ -59,9 +59,6 @@ public class asg1 {
 
         //TODO:  If loopNo is 62 you'll need to run this function recursively maybe?
 
-        
-        //TODO:  Calculate correctly for odd numbers
-
         for (Long i = 1L; i <= loopNo; i++) {
             //If not even then count it
             if (!isEven(jReduced)){
