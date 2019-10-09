@@ -65,65 +65,65 @@ public class asg1 {
                 //System.out.println("jReduced now = " + jReduced);
             }
             jReduced = jReduced/2L;
-            System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
+            //System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
         }
-        System.out.println("jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
-        System.out.println("------------------");
+        //System.out.println("jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
+        //System.out.println("------------------");
 
         //TODO: To optimise put the while and for into one loop?
 
-        System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
+        //System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
         Long miniResult = simpleSolve(a, jReduced, n);
-        System.out.println("miniResult = " + miniResult);
+        //System.out.println("miniResult = " + miniResult);
 
-        System.out.println("------------------");
+        //System.out.println("------------------");
 
         //Long result = power(miniResult, resultPower);
         //System.out.println("Calc Mod (result) --- (" + a + "^" + jReduced + "%" + n + ")^" + resultPower);
 
         //To replace powering
         Long resultPower = j - extraIndices;
-        System.out.println("resultPower = " + resultPower);
+        //System.out.println("resultPower = " + resultPower);
 
         //This would be the first loop
-        System.out.println("(miniResult ["+miniResult+"] * miniResult ["+miniResult+"]) % n ["+n+"]");
+        //System.out.println("(miniResult ["+miniResult+"] * miniResult ["+miniResult+"]) % n ["+n+"]");
         Long temp = calculateMod(miniResult * miniResult, n);
-        System.out.println("temp = " + temp);
+        //System.out.println("temp = " + temp);
 
         //As first loop has already run start i at 2
         for (Long i = 2L; i < resultPower; i++){
-            System.out.println("i = " + i);
-            System.out.println("temp [" + temp + "] * (miniResult ["+miniResult+"] % n ["+n+"])");
+            //System.out.println("i = " + i);
+            //System.out.println("temp [" + temp + "] * (miniResult ["+miniResult+"] % n ["+n+"])");
             temp = calculateMod(temp * miniResult, n);
-            System.out.println("temp = " + temp);
+            //System.out.println("temp = " + temp);
 
             temp = calculateMod(temp, n);
 
             //Check for overflows
-            if (temp < 0){
+            /*if (temp < 0){
                 System.out.println("BROKEN AT " + i);
                 break;
-            }
+            }*/
         }
         Long result = temp;
         //Long result = calculateMod(temp, n);
-        System.out.println("Result = " + result);
+        //System.out.println("Result = " + result);
 
         //If there were extra indices then add them to the result
         if (extraIndices != 0){
-            System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
+            //System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
             Long extraResult = simpleSolve(a, extraIndices, n);//TODO:  Consider advSolve here??
-            System.out.println("extraResult = " + extraResult);
+            //System.out.println("extraResult = " + extraResult);
             
             //Long extraResultPower = jReduced;
             //Long extraResult = power(extraMiniResult, extraResultPower);
 
             //Add to the result
-            System.out.println("result ("+ result + ") * extraResult (" + extraResult + ") = " + result*extraResult);
+            //System.out.println("result ("+ result + ") * extraResult (" + extraResult + ") = " + result*extraResult);
             result = result * extraResult;
         }
 
-        System.out.println("Calc Mod --- " + result + "%"+n);
+        //System.out.println("Calc Mod --- " + result + "%"+n);
         return calculateMod(result, n);  //Final result
 
     }
