@@ -33,7 +33,6 @@ public class asg1 {
 
 
         //System.out.println(simpleSolve(a, j, n));
-
         System.out.println(advSolve(a, j, n));
     }
 
@@ -54,11 +53,8 @@ public class asg1 {
             loopNo++;
             //System.out.println("loopNo = " + loopNo + " --- 2^loopNo = " + power(2L, loopNo));
         }
-        System.out.println("2^" + loopNo + " is the largest power of 2 less than j so will be loopNo");
-        System.out.println("------------------");
-
-        //TODO:  If loopNo is 62 you'll need to run this function recursively maybe?
-        //TODO:  Once power goes beyond a certain limit make this recursive
+        //System.out.println("2^" + loopNo + " is the largest power of 2 less than j so will be loopNo");
+        //System.out.println("------------------");
 
         for (Long i = 1L; i <= loopNo; i++) {
             //If not even then count it
@@ -69,46 +65,55 @@ public class asg1 {
                 //System.out.println("jReduced now = " + jReduced);
             }
             jReduced = jReduced/2L;
-            //System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
+            System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
         }
         System.out.println("jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
         System.out.println("------------------");
+
+        //TODO: To optimise put the while and for into one loop?
 
         System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
         Long miniResult = simpleSolve(a, jReduced, n);
         System.out.println("miniResult = " + miniResult);
 
+        System.out.println("------------------");
+
+        //Long result = power(miniResult, resultPower);
+        //System.out.println("Calc Mod (result) --- (" + a + "^" + jReduced + "%" + n + ")^" + resultPower);
+
+        //To replace powering
         Long resultPower = j - extraIndices;
+        System.out.println("resultPower = " + resultPower);
 
-        Long result = power(miniResult, resultPower);
-        System.out.println("Calc Mod (result) --- (" + a + "^" + jReduced + "%" + n + ")^" + resultPower);
+        //This would be the first loop
+        System.out.println("(miniResult ["+miniResult+"] * miniResult ["+miniResult+"]) % n ["+n+"]");
+        Long temp = calculateMod(miniResult * miniResult, n);
+        System.out.println("temp = " + temp);
 
-        /*Long temp = 1L;
-        for (Long i = 1L; i <= resultPower; i++) {
-            //TODO:  divide result power by 2?
-            //THIS SECTION NEEDS WORK STILL
-            //Mini^2
-            System.out.println("Calc Mod (mini2Result) --- (miniResult)^2");
-            Long mini2Result = calculateMod(power(miniResult, 2L), n);
-            System.out.println("mini2Result = " + mini2Result);
-            //END SECTION
-            temp = temp * mini2Result;
+        //As first loop has already run start i at 2
+        for (Long i = 2L; i < resultPower; i++){
+            System.out.println("i = " + i);
+            System.out.println("temp [" + temp + "] * (miniResult ["+miniResult+"] % n ["+n+"])");
+            temp = calculateMod(temp * miniResult, n);
+            System.out.println("temp = " + temp);
+
+            temp = calculateMod(temp, n);
+
+            //Check for overflows
             if (temp < 0){
                 System.out.println("BROKEN AT " + i);
                 break;
             }
-            System.out.println("i = " + i + "  ---  temp = " + temp);
         }
-
         Long result = temp;
-        System.out.println("Result = " + result);*/
+        //Long result = calculateMod(temp, n);
+        System.out.println("Result = " + result);
 
         //If there were extra indices then add them to the result
         if (extraIndices != 0){
             System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
-            Long extraResult = simpleSolve(a, extraIndices, n);
+            Long extraResult = simpleSolve(a, extraIndices, n);//TODO:  Consider advSolve here??
             System.out.println("extraResult = " + extraResult);
-            System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
             
             //Long extraResultPower = jReduced;
             //Long extraResult = power(extraMiniResult, extraResultPower);
@@ -135,11 +140,12 @@ public class asg1 {
         Long result = 1L;
         for (Long i = 1L; i <= indices; i++) {
             result = result * num;
-            System.out.println("i = " + i + "  ---  result = " + result);
-            if (result < 0){
+            //System.out.println("i = " + i + "  ---  result = " + result);
+            //Check for overflows
+            /*if (result < 0){
                 System.out.println("BROKEN AT " + i);
                 break;
-            }
+            }*/
         }
         //System.out.println("Power result = " + result);
         return result;
@@ -155,7 +161,7 @@ public class asg1 {
     }
 
     //A function to tell whether a number is prime (it will make an approximation for large numbers for speed)
-    private static Boolean isPrime(Long isPrime){
+    /*private static Boolean isPrime(Long isPrime){
         Boolean result = true;
 
         Long lastDigit = calculateMod(isPrime, 10L);
@@ -198,5 +204,5 @@ public class asg1 {
 
         }
         return result;
-    }
+    }*/
 }
