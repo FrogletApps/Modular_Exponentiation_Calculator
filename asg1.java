@@ -46,84 +46,91 @@ public class asg1 {
         Long loopNo = 1L;
         Long jReduced = j;
         Long extraIndices = 0L;
+        Long result = 0L;
 
-        //This calculates the loop number
-        //Beyond 62 you get overflow (because Long stores (2^63)-1)
-        while (power(2L, loopNo+1L) <= j && loopNo < 62L){
-            loopNo++;
-            //System.out.println("loopNo = " + loopNo + " --- 2^loopNo = " + power(2L, loopNo));
-        }
-        //System.out.println("2^" + loopNo + " is the largest power of 2 less than j so will be loopNo");
-        //System.out.println("------------------");
-
-        for (Long i = 1L; i <= loopNo; i++) {
-            //If not even then count it
-            if (!isEven(jReduced)){
-                //System.out.println("jReduced original = " + jReduced);
-                extraIndices++;
-                jReduced--;
-                //System.out.println("jReduced now = " + jReduced);
+        if (j != 1){
+            //This calculates the loop number
+            //Beyond 62 you get overflow (because Long stores (2^63)-1)
+            while (power(2L, loopNo+1L) <= j && loopNo < 62L){
+                loopNo++;
+                //System.out.println("loopNo = " + loopNo + " --- 2^loopNo = " + power(2L, loopNo));
             }
-            jReduced = jReduced/2L;
-            //System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
-        }
-        //System.out.println("jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
-        //System.out.println("------------------");
+            //System.out.println("2^" + loopNo + " is the largest power of 2 less than j so will be loopNo");
+            //System.out.println("------------------");
 
-        //System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
-        Long miniResult = simpleSolve(a, jReduced, n);
-        //System.out.println("miniResult = " + miniResult);
+            for (Long i = 1L; i <= loopNo; i++) {
+                //If not even then count it
+                if (!isEven(jReduced)){
+                    //System.out.println("jReduced original = " + jReduced);
+                    extraIndices++;
+                    jReduced--;
+                    //System.out.println("jReduced now = " + jReduced);
+                }
+                jReduced = jReduced/2L;
+                //System.out.println("i = " + i + "  ---  jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
+            }
+            //System.out.println("jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
+            //System.out.println("------------------");
 
-        //System.out.println("------------------");
+            //System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
+            Long miniResult = simpleSolve(a, jReduced, n);
+            //System.out.println("miniResult = " + miniResult);
 
-        //DO NOT USE THIS - IT WILL OVERFLOW
-        //Long result = power(miniResult, resultPower);
-        //System.out.println("Calc Mod (result) --- (" + a + "^" + jReduced + "%" + n + ")^" + resultPower);
+            //System.out.println("------------------");
 
-        //To replace powering
-        Long resultPower = j - extraIndices;
-        //System.out.println("resultPower = " + resultPower);
-
-        //This would be the first loop
-        //System.out.println("(miniResult ["+miniResult+"] * miniResult ["+miniResult+"]) % n ["+n+"]");
-        Long temp = calculateMod(miniResult * miniResult, n);
-        //System.out.println("temp = " + temp);
-
-        //As first loop has already run start i at 2
-        for (Long i = 2L; i < resultPower; i++){
-            //System.out.println("i = " + i);
-            //System.out.println("temp [" + temp + "] * (miniResult ["+miniResult+"] % n ["+n+"])");
-            temp = calculateMod(temp * miniResult, n);
+            //This would be the first loop
+            //System.out.println("Loop 1");
+            //System.out.println("(miniResult ["+miniResult+"] * miniResult ["+miniResult+"]) % n ["+n+"]");
+            Long temp = calculateMod(miniResult * miniResult, n);
             //System.out.println("temp = " + temp);
 
-            temp = calculateMod(temp, n);
+            //As first loop has already run start i at 2
+            for (Long i = 2L; i <= loopNo; i++){
 
-            //Check for overflows
-            /*if (temp < 0){
-                System.out.println("BROKEN AT " + i);
-                break;
-            }*/
-        }
-        Long result = temp;
-        //Long result = calculateMod(temp, n);
-        //System.out.println("Result = " + result);
 
-        //If there were extra indices then add them to the result
-        if (extraIndices != 0){
-            //System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraIndices + "%" + n);
-            Long extraResult = simpleSolve(a, extraIndices, n);//TODO:  Consider advSolve here??
-            //System.out.println("extraResult = " + extraResult);
+                //System.out.println("Loop " + i + "/" + (loopNo));
+                //System.out.println("temp [" + temp + "] * (temp^2 ["+power(temp, 2l)+"] % n ["+n+"])");
+                temp = calculateMod(power(temp, 2L), n);
+                //System.out.println("temp = " + temp);
+
+                temp = calculateMod(temp, n);
+
+                //Check for overflows
+                /*if (temp < 0){
+                    System.out.println("BROKEN AT " + i);
+                    break;
+                }*/
+            }
+
+            result = temp;
+            //Long result = calculateMod(temp, n);
+            //System.out.println("Result = " + result);
             
-            //Long extraResultPower = jReduced;
-            //Long extraResult = power(extraMiniResult, extraResultPower);
+            Long bleep = j -power(2L, loopNo);
+            //System.out.println("(2^" + (loopNo) + ") - j[" + j + "] = " + bleep);
 
-            //Add to the result
-            //System.out.println("result ("+ result + ") * extraResult (" + extraResult + ") = " + result*extraResult);
-            result = result * extraResult;
+            //If there were extra indices then add them to the result
+            if (bleep != 0 && j != 1){
+                //System.out.println("Calc Mod (extraResult) --- " + a + "^" + bleep + "%" + n);
+                Long extraResult = advSolve(a, bleep, n);
+                //System.out.println("extraResult = " + extraResult);
+                
+                //Long extraResultPower = jReduced;
+                //Long extraResult = power(extraMiniResult, extraResultPower);
+
+                //Add to the result
+                //System.out.println("result ("+ result + ") * extraResult (" + extraResult + ") = " + result*extraResult);
+                result = result * extraResult;
+            }
+
+            //System.out.println("Calc Mod --- " + result + "%" + n);
+            result = calculateMod(result, n);
         }
-
-        //System.out.println("Calc Mod --- " + result + "%"+n);
-        return calculateMod(result, n);  //Final result
+        else {
+            //j = 1 so the calculation is a little simpler!
+            result = calculateMod(a, n);
+        }
+        return result;  //Final result
 
     }
 
@@ -199,7 +206,6 @@ public class asg1 {
             if (isPrime == 1){
                 result = false;
             }
-
         }
         return result;
     }*/
