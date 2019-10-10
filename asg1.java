@@ -106,13 +106,14 @@ public class asg1 {
             //Long result = calculateMod(temp, n);
             //System.out.println("Result = " + result);
             
-            Long bleep = j -power(2L, loopNo);
-            //System.out.println("(2^" + (loopNo) + ") - j[" + j + "] = " + bleep);
+            Long extraToCalc = j - power(2L, loopNo);
+            //System.out.println("(2^" + (loopNo) + ") - j[" + j + "] = " + extraToCalc);
 
             //If there were extra indices then add them to the result
-            if (bleep != 0 && j != 1){
-                //System.out.println("Calc Mod (extraResult) --- " + a + "^" + bleep + "%" + n);
-                Long extraResult = advSolve(a, bleep, n);
+            if (extraToCalc != 0 && j != 1){
+                //System.out.println("Calc Mod (extraResult) --- " + a + "^" + extraToCalc + "%" + n);
+                //Do some recursion to hoover up every last bit!
+                Long extraResult = advSolve(a, extraToCalc, n);
                 //System.out.println("extraResult = " + extraResult);
                 
                 //Long extraResultPower = jReduced;
