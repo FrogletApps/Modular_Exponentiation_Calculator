@@ -70,14 +70,13 @@ public class asg1 {
         //System.out.println("jReduced = " + jReduced + "  ---  extraIndices = " + extraIndices);
         //System.out.println("------------------");
 
-        //TODO: To optimise put the while and for into one loop?
-
         //System.out.println("Calc Mod (miniResult) --- " + a + "^" + jReduced + "%" + n);
         Long miniResult = simpleSolve(a, jReduced, n);
         //System.out.println("miniResult = " + miniResult);
 
         //System.out.println("------------------");
 
+        //DO NOT USE THIS - IT WILL OVERFLOW
         //Long result = power(miniResult, resultPower);
         //System.out.println("Calc Mod (result) --- (" + a + "^" + jReduced + "%" + n + ")^" + resultPower);
 
@@ -130,8 +129,7 @@ public class asg1 {
 
     //A function to calculate firstNum mod secondNum
     private static Long calculateMod(Long firstNum, Long secondNum){
-        Long modResult = firstNum%secondNum + (firstNum >= 0 ? 0 : secondNum);
-        return modResult;
+        return firstNum%secondNum + (firstNum >= 0 ? 0 : secondNum);
     }
 
     //A function to calculate firstNum mod secondNum
