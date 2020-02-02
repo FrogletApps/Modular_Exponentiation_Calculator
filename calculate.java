@@ -1,4 +1,4 @@
-public class asg1 {
+public class calculate {
     public static void main (String[] args) {
         //Set variables from arguments
         //These are to calculate a^j mod n
@@ -86,20 +86,11 @@ public class asg1 {
 
             //As first loop has already run start i at 2
             for (Long i = 2L; i <= loopNo; i++){
-
-
                 //System.out.println("Loop " + i + "/" + (loopNo));
                 //System.out.println("temp [" + temp + "] * (temp^2 ["+power(temp, 2l)+"] % n ["+n+"])");
                 temp = calculateMod(power(temp, 2L), n);
                 //System.out.println("temp = " + temp);
-
                 temp = calculateMod(temp, n);
-
-                //Check for overflows
-                /*if (temp < 0){
-                    System.out.println("BROKEN AT " + i);
-                    break;
-                }*/
             }
 
             result = temp;
@@ -115,9 +106,6 @@ public class asg1 {
                 //Do some recursion to hoover up every last bit!
                 Long extraResult = advSolve(a, extraToCalc, n);
                 //System.out.println("extraResult = " + extraResult);
-                
-                //Long extraResultPower = jReduced;
-                //Long extraResult = power(extraMiniResult, extraResultPower);
 
                 //Add to the result
                 //System.out.println("result ("+ result + ") * extraResult (" + extraResult + ") = " + result*extraResult);
@@ -132,7 +120,6 @@ public class asg1 {
             result = calculateMod(a, n);
         }
         return result;  //Final result
-
     }
 
     //A function to calculate firstNum mod secondNum
@@ -147,11 +134,6 @@ public class asg1 {
         for (Long i = 1L; i <= indices; i++) {
             result = result * num;
             //System.out.println("i = " + i + "  ---  result = " + result);
-            //Check for overflows
-            /*if (result < 0){
-                System.out.println("BROKEN AT " + i);
-                break;
-            }*/
         }
         //System.out.println("Power result = " + result);
         return result;
@@ -165,49 +147,4 @@ public class asg1 {
         }
         return result;
     }
-
-    //A function to tell whether a number is prime (it will make an approximation for large numbers for speed)
-    /*private static Boolean isPrime(Long isPrime){
-        Boolean result = true;
-
-        Long lastDigit = calculateMod(isPrime, 10L);
-        //System.out.println(isPrime + "'s last digit is " + lastDigit);
-
-        //List of last digits that would definitely not be prime
-        Long[] primeLastDigits = {0L, 2L, 4L, 5L, 6L, 8L};
-
-        //Quick check for prime numbers, check to see if even or divisble by 5
-        for (int i = 0; i < 6; i++){
-            if (primeLastDigits[i] == lastDigit){
-                //System.out.println("Last digit means this isn't prime");
-                result = false;
-                break;
-            }
-        }
-
-        //If it still could be prime, then do a more thorough (but still quick) check
-        if (result == true){
-            Long primeCheckLimit;
-            //Limit the checking to 1000 numbers so this is quick
-            if (isPrime > 1000L){
-                primeCheckLimit = 1000L;
-            }
-            else{
-                primeCheckLimit = isPrime;
-            }
-            for (Long i = 2L; i < primeCheckLimit; i++) {
-                //if isPrime MOD i = 0 then it is not prime
-                //System.out.println(i);
-                if (calculateMod(isPrime, i) == 0){
-                    result = false;
-                    break;
-                }
-            }
-            //1 is not a prime number
-            if (isPrime == 1){
-                result = false;
-            }
-        }
-        return result;
-    }*/
 }
